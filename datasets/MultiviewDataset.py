@@ -54,11 +54,8 @@ def get_data(hparams, dataset_path):
         elif hparams.dataset == 'Wikipedia':
             mv_data_dense.append(np.array(feature).astype(np.float32))
         else:
-            # StandardScaler normalisation (MinMaxScaler and L2 normalisation were also tried)
-            #mv_data_dense.append(np.array(feature).astype(np.float32))
-            #mv_data_dense.append(normalize(np.array(feature).astype(np.float32)))
             mv_data_dense.append(StandardScaler().fit_transform(np.array(feature).astype(np.float32)))
-            #mv_data_dense.append(MinMaxScaler().fit_transform(np.array(feature).astype(np.float32)))
+
     mv_data = mv_data_dense
 
     indices = np.arange(total_sample_num)
