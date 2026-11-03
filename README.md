@@ -1,6 +1,6 @@
 # CDPL
 
-Reference implementation of **CDPL** for multi-view long-tailed semi-supervised
+Official implementation of **CDPL** for multi-view long-tail semi-supervised
 classification.
 
 The code learns one encoder per view, fuses the view embeddings with an
