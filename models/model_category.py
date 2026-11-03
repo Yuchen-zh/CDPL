@@ -23,11 +23,6 @@ class Model(nn.Module):
         self.model = FeatureExtract(n_input=self.dataset_dict['dimension_list'], n_z=hparams.projection_dim, nLabel=self.nclasses).to(self.gpu)
         
         self.lr = hparams.lr
-        # for itc, club, and classification
-        #self.alpha = self.hparams.alpha
-        #self.beta = self.hparams.beta
-        #self.gamma = self.hparams.gamma
-        #self.rate_uce = self.hparams.rate_uce
         self.update_step = hparams.update_step
         self.memory_step = hparams.memory_step
         self.center = self.nclasses
@@ -104,15 +99,6 @@ class Model(nn.Module):
 
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=hparams.lr, weight_decay=hparams.weight_decay)
         self.scheduler = None
-        #self.scheduler = LinearWarmupCosineAnnealingLR(self.optimizer, warmup_epochs=hparams.warmup_epochs, max_epochs = hparams.max_epochs)
-        '''
-        self.scheduler = get_cosine_schedule_with_warmup(
-            self.optimizer, 
-            num_training_steps=self.max_epochs,
-            num_cycles=7./16.,
-            num_warmup_steps=self.warm_up
-        )
-        '''
         self.logdir = hparams.logdir
         self.bacc = 0
         self.best_epoch = 0
@@ -307,20 +293,6 @@ class Model(nn.Module):
         y_true = y_lb.cpu().numpy()
         per_class_metrics = {}
 
-        '''
-        for v_idx, v_logits in enumerate(share_lb_feature):
-            y_pred_prob = torch.softmax(v_logits, dim=-1).cpu().numpy()
-            y_pred = np.argmax(y_pred_prob, axis=-1)
-            metrics = self.calculate_metrics(
-                y_true=y_true,
-                y_pred=y_pred,
-                y_pred_prob=np.array(y_pred_prob),
-                average='macro',
-                num_classes=v_logits.shape[1]
-            )
-            all_metrics.append(metrics)
-        '''
-
         y_pred_prob = torch.softmax(all_result, dim=-1).cpu().numpy()
         y_pred = np.argmax(y_pred_prob, axis=-1)
         metrics = self.calculate_metrics(
@@ -410,18 +382,6 @@ class Model(nn.Module):
         # per-class values of the last batch are written out
         per_class_mean = {k: float(np.nanmean(vs)) for k, vs in per_class_buf.items()}
 
-        '''
-        with open(self.logdir, 'a') as file:
-            file.write('---------------test---------------\n')
-            file.write(str(final_metrics))
-            file.write('\n')
-            file.write('Per-class metrics:\n')
-            for k in log_dict:
-                if '/class' in k:
-                    file.write(f'{k}: {log_dict[k]}\n')
-        '''
-    
-
         row_dict = {**final_metrics, **per_class_mean}
 
         # append metric names and values to the CSV file
@@ -439,8 +399,3 @@ class Model(nn.Module):
         print("\n====== Test Metrics ======")
         for key, value in final_metrics.items():
             print(f"{key}: {value:.4f}")
-
-
-
-
-
