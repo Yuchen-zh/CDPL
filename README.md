@@ -9,11 +9,6 @@
 Official implementation of **CDPL** for multi-view long-tail semi-supervised
 classification.
 
-The code learns one encoder per view, fuses the view embeddings with an
-entropy-based weighting, and trains the classifier with labeled data plus
-pseudo-labeled unlabeled data selected by a dual-prototype rule (class
-prototypes in feature space + majority voting across views).
-
 ## Repository layout
 
 ```
