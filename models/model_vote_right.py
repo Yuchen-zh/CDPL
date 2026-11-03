@@ -372,17 +372,6 @@ class Model(nn.Module):
                             select_ulb_unique_label.append(torch.tensor([ulb_unique_label[0]]))
 
                             # process the pseudo-label
-                            '''
-                            if len(ulb_unique_pseudo_label) > 5:
-                                most_common_label = Counter(ulb_unique_pseudo_label).most_common(1)[0][0]
-                                most_common_number = Counter(ulb_unique_pseudo_label).most_common(1)[0][1]
-                                if most_common_number > 0.8 * len(ulb_unique_pseudo_label):
-                                    select_ulb_unique_pseudo_label.append(torch.tensor([most_common_label]))
-                                else:
-                                    select_ulb_unique_pseudo_label.append(torch.tensor([-1]))
-                            else:
-                                select_ulb_unique_pseudo_label.append(torch.tensor([-1]))
-                            '''
                             if len(ulb_unique_pseudo_label) > 2:
                                 most_common_label = Counter(ulb_unique_pseudo_label).most_common(1)[0][0]
                                 most_common_number = Counter(ulb_unique_pseudo_label).most_common(1)[0][1]
@@ -401,14 +390,6 @@ class Model(nn.Module):
                             select_ulb_unique_label = torch.empty(0, dtype=torch.long, device=device)
                             select_ulb_unique_pseudo_label = torch.empty(0, dtype=torch.long, device=device)
                             select_ulb_unique_pseudo_label_distribution = torch.empty(0, self.nclasses, device=device)
-
-
-                        '''
-                        self.select_ulb_idx = torch.masked_select(select_ulb_unique_idx.cpu(), select_ulb_unique_pseudo_label != -1)
-                        self.select_ulb_label = torch.masked_select(select_ulb_unique_label, select_ulb_unique_pseudo_label != -1)
-                        self.select_ulb_pseudo_label = torch.masked_select(select_ulb_unique_pseudo_label, select_ulb_unique_pseudo_label != -1)
-                        self.select_ulb_pseudo_label_distribution = select_ulb_unique_pseudo_label_distribution[select_ulb_unique_pseudo_label != -1]
-                        '''
 
                         # keep every tensor on the same device
                         device = select_ulb_unique_idx.device
@@ -519,14 +500,6 @@ class Model(nn.Module):
 
                 util_ratio = total_selected / total_ulb if total_selected > 0 else 0
                 error_ratio = total_error / total_selected if total_selected > 0 else 0
-
-                '''
-                if epoch == self.N:
-                    from torch.optim.lr_scheduler import CosineAnnealingLR
-                    self.scheduler = CosineAnnealingLR(self.optimizer, T_max=hparams.max_epochs - self.N, eta_min=15e-6)
-                if self.scheduler is not None:
-                    self.scheduler.step()
-                '''
                     
                 avg_loss = total_loss / total_num
 
