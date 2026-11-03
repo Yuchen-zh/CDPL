@@ -46,22 +46,9 @@ def load_datasets(hparams):
     return dataset_dict
 
 def train(hparams):
-    #param_dataset_id = hparams.dataset.split(',')
-    #datasets = list(map(int, param_dataset_id))
 
-    #for i in range(len(datasets)):
-        #hparams.dataset=DATASET[i]
     logdir = create_logdir(hparams)
     hparams.logdir = logdir
-    
-    '''
-    if hparams.train:
-        file = open(logdir, 'a')
-        file.truncate(0)
-        file.write(f"{hparams.dataset}")
-        file.write('\n')
-        file.close()
-    '''
 
     if hparams.train:
         with open(logdir, mode='w', newline='', encoding='utf-8') as file:
@@ -78,76 +65,6 @@ def train(hparams):
             writer.writerow(column_names)
 
     dataset_dict = load_datasets(hparams)
-
-    '''
-    l_N = len(dataset_dict['train_lb'])
-    u_N = len(dataset_dict['train_ulb'])
-
-    target_N = max(l_N, u_N)
-
-    l_indices = np.arange(l_N)
-    np.random.shuffle(l_indices)
-    u_indices = np.arange(u_N)
-    np.random.shuffle(u_indices)
-
-    l_sampler = SubsetRandomSampler(l_indices.tolist() * (target_N // l_N) + l_indices.tolist()[:target_N % l_N])
-    u_sampler = SubsetRandomSampler(u_indices.tolist() * (target_N // u_N) + u_indices.tolist()[:target_N % u_N])
-
-    l_loader = DataLoader(
-        dataset_dict['train_lb'],
-        num_workers=hparams.num_workers,
-        batch_size=hparams.l_batch_size,
-        pin_memory=True,
-        shuffle=False,
-        sampler=l_sampler,
-        persistent_workers=(hparams.num_workers > 0),
-        drop_last=True,
-    )
-
-    u_loader = DataLoader(
-        dataset_dict['train_ulb'],
-        num_workers=hparams.num_workers,
-        batch_size=hparams.u_batch_size,
-        pin_memory=True,
-        shuffle=False,
-        sampler=u_sampler,
-        persistent_workers=(hparams.num_workers > 0),
-        drop_last=True,
-    )
-
-    val_loader = DataLoader(
-        dataset_dict['eval'],
-        num_workers=hparams.num_workers,
-        batch_size=hparams.val_batch_size,
-        pin_memory=True,
-        shuffle=True,
-        persistent_workers=(hparams.num_workers > 0),
-        drop_last=False,
-    )
-
-    test_loader = DataLoader(
-        dataset_dict['test'],
-        num_workers=hparams.num_workers,
-        batch_size=len(dataset_dict['test']),
-        pin_memory=True,
-        shuffle=True,
-        persistent_workers=(hparams.num_workers > 0),
-        drop_last=False,
-    )
-
-    print(f"Number of train_lb batches: {len(l_loader)}")
-    print(f"Number of train_ulb batches: {len(u_loader)}")
-    print(f"Number of validation batches: {len(val_loader)}")
-    print(f"Number of testing batches: {len(test_loader)}")
-
-    loader_dict = {
-        'train_lb': l_loader,
-        'train_ulb': u_loader,
-        'eval': val_loader,
-        'test': test_loader
-    }
-
-    '''
     
     l_N, u_N = len(dataset_dict['train_lb']), len(dataset_dict['train_ulb'])
 
@@ -184,8 +101,3 @@ def train(hparams):
         model(hparams)
     else:
         print('Algorithm name not found')
-
-    
-
-    # hparams.repeat_ratio = max(u_N//(hparams.unlabelled_ratio*l_N)-1, 1)
-    # print(f'Repeat ratio: {hparams.repeat_ratio}. Load labelled and unlabelled data separately, Labelled data: {len(l_loader)}, Unlabelled data: {len(u_loader)}')
