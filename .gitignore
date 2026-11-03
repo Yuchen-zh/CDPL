@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# experiment artefacts
+data/
+checkpoint_*/
+result_*/
+*.pth
+*.csv
+
+# editors
+.idea/
+.vscode/
+*.swp
+.DS_Store

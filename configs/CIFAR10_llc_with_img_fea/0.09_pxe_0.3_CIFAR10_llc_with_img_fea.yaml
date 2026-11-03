@@ -1,0 +1,68 @@
+dataset: 'CIFAR10_llc_with_img_fea'
+device:
+
+fix_seed: True
+host: local
+data_base:
+data_base_local: data
+update_step: 5
+memory_step: 5
+momentum: 0.99
+num_workers: 4
+
+algorithm_name: Multi-View-LTSSL
+exp_name: Multi-View-LTSSL
+ulb_ratio: 0.09
+ulb_imb_type: 'pxe'
+imb_ratio: 0.3
+
+warmup_epochs: 100
+temperature: 0.1
+projection_dim: 512
+
+threshold: 0.95
+
+lr: 1e-3
+weight_decay: 5e-5
+
+resume_training: False
+train_datatype: Multi-View
+
+seed: 2023
+max_epochs: 500
+train: True
+test: False
+N: 420
+
+
+drop_rate: 0.0
+alpha: 0.2
+beta: 1.0
+gamma: 1.0
+rate_uce: 0.2
+unlabelled_ratio: 7
+start_epoch: 0
+rate_pseudo: 0.95
+prototype_momentum: 0.9
+smoothing: 0.1
+
+l_batch_size: 32
+u_batch_size: 32
+val_batch_size: 256
+test_batch_size: 256
+
+share_weights: False
+logdir:
+repeat_ratio:
+
+# teacher
+use_ema: True
+eman: True
+ema_momentum: 0.99
+
+
+wandb_id: 1
+
+
+
+

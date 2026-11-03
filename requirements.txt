@@ -1,0 +1,8 @@
+torch>=2.0
+numpy>=1.23
+scipy>=1.10
+hdf5storage>=0.1.19
+scikit-learn>=1.2
+ruamel.yaml>=0.17
+transformers>=4.30
+pytorch-lightning-bolts>=0.7.0
