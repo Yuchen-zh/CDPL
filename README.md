@@ -1,10 +1,10 @@
 # CDPL
 
-> **Status: under review.** This repository accompanies a manuscript that is
-> currently under review. The code and the configurations are provided for
-> reference only: please do not redistribute them, and please do not use them to
-> develop, evaluate or benchmark competing submissions before the paper is
-> published. This page will be updated once the review process is over.
+> **Status: Under Review**
+>
+> This repository contains the code and configurations for a paper currently under review. The materials are shared for reference only. Please do not redistribute or use them to develop, evaluate, or benchmark competing methods before the paper is published.
+>
+> We will update the repository after the review process is complete.
 
 Official implementation of **CDPL** for multi-view long-tail semi-supervised
 classification.
