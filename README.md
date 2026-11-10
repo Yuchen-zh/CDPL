@@ -9,6 +9,8 @@
 Official implementation of **CDPL** for multi-view long-tail semi-supervised
 classification.
 
+**Supplementary material:** [Supplementary_Material.pdf](supplementary/Supplementary_Material.pdf)
+
 ## Repository layout
 
 ```
